@@ -1,4 +1,4 @@
-//3 tables?  4 tables?  project, resources, task ... + connecting resource table?? 
+//3 tables?  4 tables?  project, resources, task ... + connecting resource table?? project resources as foreign key/connecting table
 Normalization Guidelines
 Each record has a primary key.
 No fields are repeated.
