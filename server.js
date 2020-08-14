@@ -6,4 +6,8 @@ const server = express();
 server.use(helmet());
 server.use(express.json());
 
+server.get('/', (req, res) => {
+    res.send('API running');
+})
+
 module.exports = server;
