@@ -2,7 +2,7 @@ const db = require('../data/db-config.js');
 
 module.exports = {
     getProjects,
-    getProjectById,
+    getProjectsById
 
 }
 
@@ -10,7 +10,15 @@ function getProjects() {
     return db('projects');
 }
 
+function getProjectsById(id) {
+    return db('projects').where('projects.id', id).first();
+}
 
+
+
+
+
+//join statement function to --> RETURN PROJECT RESOURCES; JOIN Resources + id  + projects + id ->
 
 
 //Wednesday Lecture Example
