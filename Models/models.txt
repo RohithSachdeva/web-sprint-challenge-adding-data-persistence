@@ -1,0 +1,32 @@
+[ ] Build an API with endpoints for:
+    -   [ ] adding resources.
+
+
+    -   [ ] retrieving a list of resources.
+    -   [ ] adding projects.
+    -   [ ] retrieving a list of projects.
+    -   [ ] adding tasks.
+    -   [ ] retrieving a list of tasks. **The list of tasks should include the project name and project description**.
+
+
+    3 models + 3 routers 
+
+    resource: 
+    -getResources ... select * from resources? 
+
+    projects: 
+    -get projects
+    - get projects by id 
+    -get project resources
+    get project tasks?  in this model?
+
+tasks:
+-repeat method from project?  
+
+gettasks
+gettaskbyid
+
+
+
+
+
