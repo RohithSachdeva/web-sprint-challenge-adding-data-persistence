@@ -1,0 +1,69 @@
+//3 tables?  4 tables?  project, resources, task ... + connecting resource table?? project resources as foreign key/connecting table
+Normalization Guidelines
+Each record has a primary key.
+No fields are repeated.
+All fields relate directly to the key data.
+Each field entry contains a single data point.
+There are no redundant entries.
+
+
+// A `project` is what needs to be done. We want to store the following data about a `project`:
+
+// -   [ ] a unique ID.
+// -   [ ] a name. This column is required.
+// -   [ ] a description.
+// -   [ ] a boolean that indicates if the project has been completed. This column is required, the default value should be `false`.
+
+// A `resource` is anything needed to complete a project, some examples are: a person, a tool, a meeting room or a software license. We want to store the following data about a `resource`:
+
+// -   [ ] a unique ID.
+// -   [ ] a name. This column is required.
+// -   [ ] a description.
+
+// The database should not allow resources with duplicate names.
+
+// A `task` is one of the steps needed to complete the project. We want to store the following data about an `task`.
+
+// -   [ ] a unique ID.
+// -   [ ] a description of what needs to be done. This column is required.
+// -   [ ] a notes column to add additional information.
+// -   [ ] a boolean that indicates if the task has been completed. This column cannot be NULL, the default value should be `false
+
+
+Seeds
+Order is also a concern when seeding. We want to create seeds in the same order we created our tables. In other words, don’t create a seed with a foreign key, until that reference record exists.
+
+In our example, make sure to write the 01-farms seed file and then the 02-ranchers seed file.
+
+However, we run into a problem with truncating our seeds, because we want to truncate 02-ranchers before 01-farms. A library called knex-cleaner provides an easy solution for us.
+
+Run knex seed:make 00-cleanup and npm install knex-cleaner. Inside the cleanup seed, use the following code.
+
+Copy
+const cleaner = require('knex-cleaner');
+
+exports.seed = function(knex) {
+  return cleaner.clean(knex, {
+    mode: 'truncate', // resets ids
+    ignoreTables: ['knex_migrations', 'knex_migrations_lock'], // don't empty migration tables
+  });
+};
+
+
+Cascading
+If a user attempt to delete a record that is referenced by another record (such as attempting to delete Morton Ranch when entries in our ranchers table reference that record), by default, the database will block the action. The same thing can happen when updating a record when a foreign key reference.
+
+If we want that to override this default, we can delete or update with cascade. With cascade, deleting a record also deletes all referencing records, we can set that up in our schema.
+
+Copy
+.createTable('ranchers', tbl => {
+    tbl.increments();
+    tbl.string('rancher_name', 128);
+    tbl.integer('farm_id')
+    .unsigned()
+    .notNullable()
+    .references('id')
+    .inTable('farms')
+    .onUpdate('CASCADE');
+    .onDelete('CASCADE')
+})
